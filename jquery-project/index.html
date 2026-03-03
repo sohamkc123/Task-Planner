@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task Planner | Soham</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar">
+
+    <div class="profile-card" id="profile-card">
+      <img src="images/avatar.svg" alt="Soham"/>
+      <h3>Soham</h3>
+      <p>Student · jQuery Lab</p>
+      <div id="hover-msg"></div>
+    </div>
+
+    <div>
+      <div class="s-title">📊 Overview</div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="n" id="s-total">0</div><div class="l">Total</div></div>
+        <div class="stat-box"><div class="n" id="s-done">0</div><div class="l">Done</div></div>
+        <div class="stat-box"><div class="n" id="s-pending">0</div><div class="l">Pending</div></div>
+        <div class="stat-box"><div class="n" id="s-pct">0%</div><div class="l">Progress</div></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="s-title">💡 Quote of the Day</div>
+      <div class="quote-box" id="quote-box">Click below to load a quote via AJAX...</div>
+      <button class="btn-sm" id="load-quote">Load Quote</button>
+    </div>
+
+    <div>
+      <div class="s-title">📋 Registration</div>
+      <button class="btn-sm out" id="open-reg">Open Registration Form</button>
+    </div>
+
+  </aside>
+
+  <!-- ═══ MAIN ═══ -->
+  <main class="main">
+
+    <div class="top-bar">
+      <div>
+        <h1>📝 Task Planner</h1>
+        <span id="today-date"></span>
+      </div>
+    </div>
+
+    <!-- Add Task -->
+    <div class="card">
+      <div class="card-title">➕ Add New Task</div>
+      <form id="task-form" novalidate>
+        <div class="fg">
+          <div class="g">
+            <label>Task Name *</label>
+            <input type="text" id="t-name" placeholder="e.g. Complete assignment"/>
+            <span class="em" id="te-name">Task name is required.</span>
+          </div>
+          <div class="g">
+            <label>Category *</label>
+            <select id="t-cat">
+              <option value="">-- Select --</option>
+              <option value="study">📚 Study</option>
+              <option value="work">💼 Work</option>
+              <option value="personal">🏠 Personal</option>
+              <option value="health">🏃 Health</option>
+              <option value="other">📦 Other</option>
+            </select>
+            <span class="em" id="te-cat">Please select a category.</span>
+          </div>
+          <div class="g">
+            <label>Due Date *</label>
+            <input type="date" id="t-date"/>
+            <span class="em" id="te-date">Please pick a date.</span>
+          </div>
+          <div class="g">
+            <label>Priority *</label>
+            <select id="t-pri">
+              <option value="">-- Select --</option>
+              <option value="High">🔴 High</option>
+              <option value="Medium">🟡 Medium</option>
+              <option value="Low">🟢 Low</option>
+            </select>
+            <span class="em" id="te-pri">Please select priority.</span>
+          </div>
+          <div class="g full">
+            <label>Note (optional)</label>
+            <input type="text" id="t-note" placeholder="Any extra note..."/>
+          </div>
+        </div>
+        <button type="submit" class="sub-btn">Add Task</button>
+      </form>
+    </div>
+
+    <!-- Task List -->
+    <div class="card">
+      <div class="card-title">📋 My Tasks</div>
+      <div class="fbar">
+        <button class="fb active" data-f="all">All</button>
+        <button class="fb" data-f="study">Study</button>
+        <button class="fb" data-f="work">Work</button>
+        <button class="fb" data-f="personal">Personal</button>
+        <button class="fb" data-f="health">Health</button>
+        <button class="fb" data-f="other">Other</button>
+      </div>
+      <div id="task-list">
+        <div class="empty">No tasks yet. Add one above! 🎯</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ═══ OVERLAY + REGISTRATION PANEL ═══ -->
+<div class="overlay" id="overlay"></div>
+
+<div id="reg-panel">
+  <button class="pc" id="close-reg">✕</button>
+  <h2>Registration Form</h2>
+  <p class="psub">All fields are required</p>
+
+  <form id="reg-form" novalidate>
+    <div class="rg">
+      <label>Full Name *</label>
+      <input type="text" id="r-name" placeholder="Your full name"/>
+      <span class="em" id="re-name">Name is required.</span>
+    </div>
+    <div class="rg">
+      <label>Gender *</label>
+      <div class="cr">
+        <label><input type="radio" name="rg" value="Male"/> Male</label>
+        <label><input type="radio" name="rg" value="Female"/> Female</label>
+        <label><input type="radio" name="rg" value="Other"/> Other</label>
+      </div>
+      <span class="em" id="re-gender">Please select gender.</span>
+    </div>
+    <div class="rg">
+      <label>Phone Number *</label>
+      <input type="text" id="r-phone" placeholder="e.g. 9812345678"/>
+      <span class="em" id="re-phone">Enter a valid phone number.</span>
+    </div>
+    <div class="rg">
+      <label>Hobbies *</label>
+      <div class="cr">
+        <label><input type="checkbox" name="rh" value="Reading"/> Reading</label>
+        <label><input type="checkbox" name="rh" value="Gaming"/> Gaming</label>
+        <label><input type="checkbox" name="rh" value="Music"/> Music</label>
+        <label><input type="checkbox" name="rh" value="Sports"/> Sports</label>
+      </div>
+      <span class="em" id="re-hobby">Select at least one hobby.</span>
+    </div>
+    <div class="rg">
+      <label>Appointment Date &amp; Time *</label>
+      <input type="datetime-local" id="r-appt"/>
+      <span class="em" id="re-appt">Date cannot be in the past.</span>
+    </div>
+    <div class="rg">
+      <label>Country *</label>
+      <select id="r-country">
+        <option value="">-- Select Country --</option>
+        <option>India</option>
+        <option>Nepal</option>
+        <option>USA</option>
+        <option>UK</option>
+        <option>Canada</option>
+        <option>Australia</option>
+      </select>
+      <span class="em" id="re-country">Please select a country.</span>
+    </div>
+    <div class="rg">
+      <label>Resume * (PDF / Word / Image, max 2MB)</label>
+      <input type="file" id="r-resume" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"/>
+      <span class="em" id="re-resume">Upload a valid file under 2MB.</span>
+    </div>
+    <div class="rg">
+      <label>Email *</label>
+      <input type="text" id="r-email" placeholder="you@email.com"/>
+      <span class="em" id="re-email">Enter a valid email address.</span>
+    </div>
+    <div class="rg">
+      <label>Password *</label>
+      <input type="password" id="r-pass" placeholder="Min 8 chars, A-z, 0-9, symbol"/>
+      <span class="em" id="re-pass">8+ chars with upper, lower, number &amp; symbol.</span>
+    </div>
+    <div class="rg">
+      <label>Confirm Password *</label>
+      <input type="password" id="r-cpass" placeholder="Repeat password"/>
+      <span class="em" id="re-cpass">Passwords do not match.</span>
+    </div>
+    <button type="submit" class="sub-btn" style="width:100%; margin-top:4px;">Submit Registration</button>
+  </form>
+
+  <div id="reg-success">
+    <div class="ic">🎉</div>
+    <h3>Registered Successfully!</h3>
+    <p>Welcome, Soham!</p>
+    <button class="btn-sm" id="reg-again" style="max-width:150px; margin:14px auto 0;">Register Again</button>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
