@@ -1,6 +1,8 @@
-# jQuery Practical — Soham
+# jQuery Task Planner — Soham KC
 
-A Task Planner web app built as a jQuery lab practical.
+A simple and interactive Task Planner Web App built as a jQuery lab practical project.
+
+This project demonstrates important jQuery concepts like DOM manipulation, animations, AJAX, selectors, and form validation in a clean and practical way.
 
 ## Features / Programs Covered
 
